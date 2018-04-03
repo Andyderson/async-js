@@ -30,6 +30,8 @@ Allowed documentation:
 /*                                                  */
 
 const fs = require('fs');
+//Required path to test
+const path = require('path');
 
 // countWords is a helper function... it helps you convert a paragraph into 
 // the string you need
@@ -65,6 +67,36 @@ const countWords = function(paragraph) {
 // outputFile: path to write resulting txt file to
 // EXAMPLE USAGE
 // countAllWords('./input.txt', './output.txt') --> should output a .txt file in same directory
+
 var countAllWords = function(inputFile, outputFile) {
-  /* WRITE CODE HERE */ 
+  //Read inputFile
+  fs.readFile(inputFile, 'utf-8', (error, data) => {
+    if (error) {
+      console.log('readFile error', error);
+      throw error;
+    } else {
+      console.log('readFile success');
+      //Use countWords to create results output of data
+      var results = countWords(data);
+    } 
+  
+  //Write file with results
+    fs.writeFile(outputFile, results, 'utf8', (error, data) => {
+      if (error) {
+        console.log('writeFile error', error);
+        throw error;
+      } else {
+        console.log('writeFile success');
+      }
+    })
+  })
 }
+
+//<<<<<<<<<<<<<<<<<<<< Check >>>>>>>>>>>>>>>>>>>>>>>>>
+
+var inputFile = path.join(__dirname, 'input.txt');
+var outputFile = path.join(__dirname, 'output.txt');
+
+countAllWords(inputFile, outputFile);
+
+//node async-all-word-count.js
